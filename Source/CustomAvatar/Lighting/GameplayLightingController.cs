@@ -48,8 +48,6 @@ namespace CustomAvatar.Lighting
             _colorManager = colorManager;
             _saberManager = saberManager;
             _twoSidedLightingController = twoSidedLightingController;
-
-            _lightManager.didSetColorForIdEvent += OnSetColorForId;
         }
 
         private void Start()
@@ -60,6 +58,8 @@ namespace CustomAvatar.Lighting
 
             AddPointLight(_colorManager.ColorForSaberType(SaberType.SaberA), _saberManager.leftSaber.transform);
             AddPointLight(_colorManager.ColorForSaberType(SaberType.SaberB), _saberManager.rightSaber.transform);
+
+            _lightManager.didSetColorForIdEvent += OnSetColorForId;
         }
 
         private void Update()
@@ -101,6 +101,8 @@ namespace CustomAvatar.Lighting
 
         private void OnDestroy()
         {
+            _lightManager.didSetColorForIdEvent -= OnSetColorForId;
+
             _twoSidedLightingController.gameObject.SetActive(true);
         }
 
